@@ -32,20 +32,16 @@ describe Phone do
   end
 =end
   it "does not allow duplicate phone numbers per contact" do
-  	contact = Contact.create(firstname: 'Joe', lastname: 'Tester',
-  		email: 'joetester@example.com')
-  	contact.phones.create(phone_type: 'home', phone: '785-555-1234')
-  	mobile_phone = contact.phones.build(phone_type: 'mobile', phone: '785-555-1234')
+  	person = create(:contact)
+    create(:home_phone, contact: person, phone: '785-555-1234')
+    mobile_phone = build(:mobile_phone, contact: person, phone: '785-555-1234')
   	expect(mobile_phone).to have(1).errors_on(:phone)
   end
 
   it "allows duplicate phone numbers for different contacts" do
-  	joe = Contact.create(firstname: 'Joe', lastname: 'Tester',
-  		email: 'joetester@example.com')
-  	mary = Contact.create(firstname: 'Mary', lastname: 'Tester',
-  		email: 'marytester@example.com')
-  	joe.phones.create(phone_type: 'home', phone: '785-555-1234')
-  	phone = mary.phones.build(phone_type: 'home', phone: '785-555-1234')
+  	create(:home_phone, phone: '785-555-1234')
+    phone = build(:home_phone, phone: '785-555-1234')
   	expect(phone).to be_valid
   end
+
 end

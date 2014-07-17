@@ -1,9 +1,11 @@
 class Contact < ActiveRecord::Base
 	has_many :phones
+	# accepts_nested_attributes_for :phones
 
 	validates :firstname, presence: true
 	validates :lastname, presence: true
 	validates :email, uniqueness: true, presence: true
+	validates :phones, length: { is: 3 }
 
 	def name
 		"#{firstname} #{lastname}"
